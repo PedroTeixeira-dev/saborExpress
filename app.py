@@ -1,6 +1,22 @@
 import os
 
-restaurantes = ['Petrus', 'QuiSabor']
+restaurantes = [
+    {
+    'nome': 'Praça',
+    'categoria': 'Japonesa',
+    'ativo': False
+    }, 
+    {
+    'nome': 'Pizza Suprema',
+    'categoria': 'Pizza',
+    'ativo': True
+    },
+    {
+        'nome': 'cantina',
+    'categoria': 'Italiana',
+    'ativo': False
+    }
+    ]
 
 def exibe_nome_do_programa():
     print("""
@@ -13,29 +29,38 @@ def exibir_opcoes():
     print('3. Ativar restaurante\n')
     print('4. Sair\n')
 
+def voltar_ao_menu_principal():
+    input('Digite uma tecla para voltar ao menu principal  ')
+    main()
+
 def opcao_invalido():
     print('O valor digitado é inválido\n')
-    input('Digite uma tecla para voltar ao menu principal  .')
-    main()
+    voltar_ao_menu_principal()
+
+def exibir_subtitulo(texto):
+    os.system('clear')
+    print(texto)
+    print('\n')
 
 def cadastrar_novo_restaurante():
-    os.system('clear')
-    print('Cadastro de novos restaurantes\n')
+    exibir_subtitulo('Cadastro de novos restaurantes')
     nome_do_restaurante = input('Digite o nome do restaurante que deseja cadastrar:')
-    restaurantes.append(nome_do_restaurante)
+    categoria = input(f'Digite o nome da categoria do restaurante {nome_do_restaurante}: ')
+    dados_do_restaurante = {'nome': nome_do_restaurante, 'categoria': categoria, 'ativo': False}
+    restaurantes.append(dados_do_restaurante)
     print(f'O restaurante {nome_do_restaurante} foi cadastrado com sucesso\n')
-    input('Digite uma tecla para voltar ao menu principal')
-    main()
+    voltar_ao_menu_principal()
 
 def listar_restaurantes():
-    os.system('clear')
-    print('Listando os restaurantes')
+    exibir_subtitulo('Listando os restaurantes')
 
     for restaurante in restaurantes:
-        print(f'- {restaurante}')
+        nome_restaurante = restaurante['nome']
+        categoria = restaurante['categoria']
+        ativo = restaurante['ativo']
+        print(f'- {nome_restaurante} | {categoria} | {ativo}')
     
-    input('Digite uma tecla para voltar ao menu principal')
-    main()
+    voltar_ao_menu_principal()
 
 def escolher_opcoes():
     try:
@@ -55,8 +80,7 @@ def escolher_opcoes():
         opcao_invalido()
 
 def finalizar_app():
-    os.system('clear')
-    print('Finalizando o App\n')
+    exibir_subtitulo('Finalizando o App')
 
 def main():
      os.system('clear')
