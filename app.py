@@ -26,7 +26,7 @@ def exibe_nome_do_programa():
 def exibir_opcoes():
     print('1. Cadastrar restaurante\n')
     print('2. Listar restaurante\n')
-    print('3. Ativar restaurante\n')
+    print('3. Alternar estado do restaurante\n')
     print('4. Sair\n')
 
 def voltar_ao_menu_principal():
@@ -39,7 +39,10 @@ def opcao_invalido():
 
 def exibir_subtitulo(texto):
     os.system('clear')
+    linha = '*' * (len(texto))
+    print(linha)
     print(texto)
+    print(linha)
     print('\n')
 
 def cadastrar_novo_restaurante():
@@ -54,12 +57,31 @@ def cadastrar_novo_restaurante():
 def listar_restaurantes():
     exibir_subtitulo('Listando os restaurantes')
 
+    print(f'{"Nome do restaurante".ljust(22)} | {"Categoria".ljust(20)} | Staus')
     for restaurante in restaurantes:
         nome_restaurante = restaurante['nome']
         categoria = restaurante['categoria']
-        ativo = restaurante['ativo']
-        print(f'- {nome_restaurante} | {categoria} | {ativo}')
+        ativo = 'ativado' if restaurante['ativo'] else 'desativado'
+        print(f'- {nome_restaurante.ljust(20)} | {categoria.ljust(20)} | {ativo}')
     
+    voltar_ao_menu_principal()
+
+def alternar_estado_restaurante():
+    exibir_subtitulo('Alterando estado do restaurante')
+    nome_restaurante = input('Digite o estado do restaurante que deseja alternar o estado: ')
+    restaurante_encontrado = False
+
+    for restaurante in restaurantes:
+        if nome_restaurante == restaurante['nome']:
+            restaurante_encontrado = True
+            restaurante['ativo'] = not restaurante['ativo']
+            mensagem = f'O restaurante {nome_restaurante} foi ativado com sucesso' if restaurante['ativo'] else f'O restaurante {nome_restaurante} foi desativado com sucesso'
+            print(mensagem)
+
+    if not restaurante_encontrado:
+        print('O restaurante não foi encontrado')
+
+        
     voltar_ao_menu_principal()
 
 def escolher_opcoes():
@@ -71,7 +93,7 @@ def escolher_opcoes():
             case 2:
                 listar_restaurantes()
             case 3:
-                print('Ativar Restaurante\n')
+                alternar_estado_restaurante()
             case 4:
                 finalizar_app()
             case _:
